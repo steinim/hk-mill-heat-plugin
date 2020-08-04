@@ -24,7 +24,7 @@ export const HomeList = () => {
 /*     axios
       .get(fetchUrl, {
         headers: {
-          authorization_code: `${token}`,
+          authorization_code: `${accessToken}`,
           accept: `application/json`,
         },
       })

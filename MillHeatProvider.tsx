@@ -8,6 +8,10 @@ interface Props {
   children?: any;
 }
 
+export interface Authorization {
+  authorization_code?: string;
+}
+
 export interface Token {
   access_token?: string;
   refresh_token?: string;
@@ -16,10 +20,11 @@ export interface Token {
 }
 
 export const MillHeatProvider = (props: Props) => {
+  const [authorization, setAuthorization] = useState({} as Authorization);
   const [token, setToken] = useState({} as Token);
   const [homeState, setHomeState] = useState([]);
 
-  const getToken = async () => {
+  const getAuthorization = async () => {
 
     const params = new URLSearchParams();
     params.append('access_key', '<secret>');
@@ -28,15 +33,42 @@ export const MillHeatProvider = (props: Props) => {
     return await axios
       .post(`https://api.millheat.com/share/applyAuthCode`, params, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': '*/*',
+        },
+      })
+      .then((e) => {
+        setAuthorization(e.data);
+        AsyncStorage.setItem('millheat-authorization', JSON.stringify(e.data));
+        return e.data;
+      })
+      .catch((err) => console.log('error', err));
+  };
+
+  const authorizationCode = () => {
+    return authorization.authorization_code;
+  };
+
+  const getToken = async () => {
+
+    const params = new URLSearchParams();
+    params.append('authorization_code', authorizationCode());
+
+    return await axios
+      .post(`https://api.millheat.com/share/applyAccessToken?password=<secret>&username=<secret>`, params, {
+        headers: {
+          'Content-Type': '*/*',
         },
       })
       .then((e) => {
         setToken(e.data);
-        AsyncStorage.setItem('millheat-token', JSON.stringify(e.data));
+        AsyncStorage.setItem('millheat-access-token', JSON.stringify(e.data));
         return e.data;
       })
       .catch((err) => console.log('error', err));
+  };
+
+  const accessToken = () => {
+    return token.access_token;
   };
 
   const homes = () => {
@@ -55,11 +87,17 @@ export const MillHeatProvider = (props: Props) => {
     setHomeState(temps);
   };
 
-  const authToken = () => {
-    return token.access_token;
-  };
-
   useEffect(() => {
+    getAuthorization();
+    const loadAuthorization = async () => {
+      const data = await AsyncStorage.getItem('millheat-authorization');
+      if (!!data) {
+        const aut = JSON.parse(data) as Authorization;
+        setAuthorization(aut);
+      }
+    };
+    loadAuthorization();
+
     getToken();
     const loadToken = async () => {
       const data = await AsyncStorage.getItem('millheat-token');
@@ -83,11 +121,12 @@ export const MillHeatProvider = (props: Props) => {
 
   const value = useMemo(() => {
     return {
-      authToken,
+      accessToken,
+      authorizationCode,
       homes,
       setHomes,
     };
-  }, [token, homeState ]);
+  }, [accessToken, authorizationCode, homeState ]);
 
   return (
     <MillHeatContext.Provider value={value}>
