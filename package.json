@@ -1,0 +1,15 @@
+{
+    "name": "mill-heat-plugin",
+    "version": "0.0.1",
+    "description": "Mill – varmeprodukter fra Mill",
+    "author": "Stein Inge Morisbak",
+    "license": "MIT",
+    "main": "pages/MillHeat.tsx",
+    "repository": "git@github.com:steinim/hk-millheat-plugin.git",
+    "plugin": {
+        "name": "Mill varmeprodukter",
+        "icon": "",
+        "description": "Koble til panelovner, varmeovner eller Mill Socket for å styre varmen gjennom Mitt Hjem."
+    },
+    "devDependencies": {}
+}
