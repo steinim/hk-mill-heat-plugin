@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ListItem, Icon, View } from 'native-base';
+import { Text, ListItem, View } from 'native-base';
 import { MillHeatContext, useMillHeat } from '../MillHeatProvider';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ActivityIndicator, RefreshControl, StyleSheet } from 'react-native';
 import axios from 'axios';
 
-export const TemperatureList = () => {
+export const HomeList = () => {
   const { accessToken, homes } = useMillHeat();
   const [shouldRefresh, setShouldRefresh] = useState(0);
   const [fetching, setShouldFetch] = useState(false);
