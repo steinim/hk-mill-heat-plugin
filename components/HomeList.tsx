@@ -3,39 +3,31 @@ import { Text, ListItem, View } from 'native-base';
 import { MillHeatContext, useMillHeat } from '../MillHeatProvider';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ActivityIndicator, RefreshControl, StyleSheet } from 'react-native';
-import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { typography } from '../../../src/styles';
+import variable from '../../../native-base-theme/variables/material';
 
 export const HomeList = () => {
-  const { accessToken, homes } = useMillHeat();
+
+  const { homes, setHomes } = useMillHeat();
   const [shouldRefresh, setShouldRefresh] = useState(0);
   const [fetching, setShouldFetch] = useState(false);
 
+  const homesList = [
+    {id: 1, Name: 'Lunavegen 6'},
+    {id: 2, Name: 'Skjoldastraumsvegen 492'},
+    {id: 3, Name: 'Trondheimsveien 6 A'},
+  ];
+
   const fetchHomes = async () => {
-    let token = accessToken();
-    if (!token) {
-      return;
-    }
+    setHomes(homesList);
     setShouldFetch(true);
-    let fetchUrl = 'https://api.millheat.com/uds/selectHomeList';
-    console.log('Fetching homes from', fetchUrl);
-
-    return '[{id: 1, Name: "Soverom"}, {id: 2, Name: "Stue" }, {id: 3, Name: "Bad" }]';
-
-/*     axios
-      .get(fetchUrl, {
-        headers: {
-          authorization_code: `${accessToken}`,
-          accept: `application/json`,
-        },
-      })
-      .then((e) => {
-        console.log(e.data);
-        setShouldFetch(false);
-      })
-      .catch((err) => {
-        console.log('error fetching homes', err);
-      }); */
+    setTimeout(function () {
+      console.log('Fetching homes...');
+      setShouldFetch(false);
+  }, 2000);
   };
+
   const onRefresh = () => {
     // Increment number just to trigger a refresh
     const increment = shouldRefresh + 1;
@@ -44,13 +36,32 @@ export const HomeList = () => {
   };
 
   useEffect(() => {
-      fetchHomes();
+    fetchHomes();
   }, []);
 
   const styles = StyleSheet.create({
     loading: {
       justifyContent: 'center',
       alignSelf: 'center',
+    },
+    textLarge: {
+      fontSize: 18,
+    },
+    textSmall: {
+      fontSize: 15,
+    },
+    header: {
+      paddingTop: 20,
+    },
+    scrollview: {
+      paddingBottom: 160,
+    },
+    icon: {
+      color: variable.kraftCyan,
+      fontSize: 25,
+      marginLeft: -2,
+      marginRight: 10,
+      marginTop: 4,
     },
   });
 
@@ -61,14 +72,16 @@ export const HomeList = () => {
           {fetching &&
           <View style={styles.loading}>
             <Text>{'\n'}</Text>
-            <ActivityIndicator size = "large" color = "#008cc2"/>
+            <ActivityIndicator size = "large" color = {variable.kraftCyan}/>
             <Text>{'\n'}Henter dine hjem...</Text>
           </View>
           }
           {!fetching &&
-          <ScrollView contentContainerStyle={{paddingBottom: 160}}
+          <View>
+          <Text style={[typography.textBold, styles.textLarge, styles.header]}>Dine hjem</Text>
+          <ScrollView contentContainerStyle={styles.scrollview}
             refreshControl={
-              <RefreshControl refreshing={false} onRefresh={onRefresh} />
+              <RefreshControl refreshing={false} onRefresh={onRefresh} tintColor="transparent" colors={[ 'transparent' ]}/>
             }
           >
             {homes() &&
@@ -76,12 +89,12 @@ export const HomeList = () => {
               homes()
                 .map((item, key) => (
                   <ListItem key={key} accessibilityLabel={item.id + ' item'}>
-                    <Text refresh={shouldRefresh} {...item}></Text>
-                    <Text style={{ fontWeight: 'bold' }}>{item.Name}</Text>
+                    <Icon name="home" style={styles.icon} /><Text style={[typography.textLight, styles.textLarge]}>{item.Name}</Text>
                   </ListItem>
                 ))}
           </ScrollView>
-        }
+          </View>
+          }
         </View>
       )}
     </MillHeatContext.Consumer>

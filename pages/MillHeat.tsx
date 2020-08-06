@@ -1,26 +1,29 @@
 import React from 'react';
 import { View, Container } from 'native-base';
+import { Image, StyleSheet } from 'react-native';
 import MillHeatProvider from '../MillHeatProvider';
 import HomeList from '../components/HomeList';
-import { StyleSheet } from 'react-native';
-import { typography } from 'styles';
-import MillHeatLogo from '../assets/MillHeatLogo';
+import variable from '../../../native-base-theme/variables/material';
 
 const styles = StyleSheet.create({
-  title: {
-    ...typography.textLight,
-    marginBottom: 20,
+  container: {
+    padding: 20,
+  },
+  logo: {
+    width: 110,
+    height: 50,
   },
 });
 
 export const MillHeat = () => {
+  const logo = require ('../assets/MillHeatLogo.png');
   return (
     <MillHeatProvider>
-      <Container style={{ padding: 20 }}>
-        <View>
-          <View style={{ marginBottom: 20 }}>
-            <MillHeatLogo />
-          </View>
+      <Container>
+        <View style={styles.container}>
+          <Image source={logo} style={styles.logo}/>
+          <View style={{ borderBottomColor: variable.kraftCyan, borderBottomWidth: 1, paddingTop: 10}}
+/>
           <HomeList />
         </View>
       </Container>

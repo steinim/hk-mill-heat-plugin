@@ -11,5 +11,8 @@
         "icon": "",
         "description": "Koble til panelovner, varmeovner eller Mill Socket for å styre varmen gjennom Mitt Hjem."
     },
-    "devDependencies": {}
+    "devDependencies": {},
+    "dependencies": {
+        "react-native-vector-icons": "^7.0.0"
+    }
 }
