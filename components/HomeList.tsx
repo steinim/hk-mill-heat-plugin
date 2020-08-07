@@ -9,7 +9,7 @@ import variable from '../../../native-base-theme/variables/material';
 
 export const HomeList = () => {
 
-  const { homes, setHomes } = useMillHeat();
+  const { homes, setHomes, isLoggedIn } = useMillHeat();
   const [shouldRefresh, setShouldRefresh] = useState(0);
   const [fetching, setShouldFetch] = useState(false);
 
@@ -36,7 +36,9 @@ export const HomeList = () => {
   };
 
   useEffect(() => {
-    fetchHomes();
+    if (isLoggedIn() !== undefined || isLoggedIn()) {
+      fetchHomes();
+    }
   }, []);
 
   const styles = StyleSheet.create({
@@ -48,7 +50,8 @@ export const HomeList = () => {
       fontSize: 18,
     },
     textSmall: {
-      fontSize: 15,
+      fontSize: 16,
+      fontWeight: 'normal',
     },
     header: {
       paddingTop: 20,
@@ -58,7 +61,7 @@ export const HomeList = () => {
     },
     icon: {
       color: variable.kraftCyan,
-      fontSize: 25,
+      fontSize: 16,
       marginLeft: -2,
       marginRight: 10,
       marginTop: 4,
@@ -76,7 +79,7 @@ export const HomeList = () => {
             <Text>{'\n'}Henter dine hjem...</Text>
           </View>
           }
-          {!fetching &&
+          {!fetching && homes() && homes().length > 0 &&
           <View>
           <Text style={[typography.textBold, styles.textLarge, styles.header]}>Dine hjem</Text>
           <ScrollView contentContainerStyle={styles.scrollview}
@@ -84,12 +87,9 @@ export const HomeList = () => {
               <RefreshControl refreshing={false} onRefresh={onRefresh} tintColor="transparent" colors={[ 'transparent' ]}/>
             }
           >
-            {homes() &&
-              homes().length > 0 &&
-              homes()
-                .map((item, key) => (
+            {homes().map((item, key) => (
                   <ListItem key={key} accessibilityLabel={item.id + ' item'}>
-                    <Icon name="home" style={styles.icon} /><Text style={[typography.textLight, styles.textLarge]}>{item.Name}</Text>
+                    <Icon name="home" style={styles.icon} /><Text style={[typography.textLight, styles.textSmall]}>{item.Name}</Text>
                   </ListItem>
                 ))}
           </ScrollView>
