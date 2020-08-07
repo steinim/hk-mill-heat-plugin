@@ -7,7 +7,7 @@
     "main": "pages/MillHeat.tsx",
     "repository": "git@github.com:steinim/hk-millheat-plugin.git",
     "plugin": {
-        "name": "Mill",
+        "name": "Mill varmeprodukter",
         "icon": "",
         "description": "Koble til panelovner, varmeovner eller Mill Socket for å styre varmen gjennom Mitt Hjem."
     },
