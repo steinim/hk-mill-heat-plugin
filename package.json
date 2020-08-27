@@ -8,7 +8,7 @@
     "repository": "git@github.com:steinim/hk-millheat-plugin.git",
     "plugin": {
         "name": "Mill varmeprodukter",
-        "icon": "https://images.squarespace-cdn.com/content/v1/54e19d4de4b08bab4fbe5975/1571649432136-K2QV3UARCJ45PIYL3DCR/ke17ZwdGBToddI8pDm48kEZVRurXsB0IPMGUF_8gfOVZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7YmDye92LJlx5Z6JHLEUGa34mbQbNiONpnlRbDgfzWEJvOvlaTsbi5O9fk2W-M3E3A/favicon.png",
+        "icon": "https://play-lh.googleusercontent.com/3sLep0T0duk8gSDpKqazmg98Wl0aIGffoSjQOoq5lvyq0_wGuOx6PrRJ6Txj1vklDLTS",
         "description": "Koble til panelovner, varmeovner eller Mill Socket for å styre varmen gjennom Mitt Hjem."
     },
     "devDependencies": {},
